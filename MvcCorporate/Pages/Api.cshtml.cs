@@ -17,7 +17,7 @@ namespace MvcCorporate.Pages
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var content = await client.GetStringAsync("http://localhost:12415/api/values");
+            var content = await client.GetStringAsync("http://localhost:51964/api/values");
 
             Json = JArray.Parse(content).ToString();
         }

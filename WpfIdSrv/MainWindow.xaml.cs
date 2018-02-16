@@ -39,7 +39,7 @@ namespace WpfIdSrv
             }
 
             ApiClient.SetBearerToken(result.AccessToken);
-            var response = await ApiClient.GetAsync(ConfigurationManager.AppSettings["api"]);
+            var response = await ApiClient.GetAsync("http://localhost:51965/api/values");
 
             if (response.IsSuccessStatusCode)
             {
@@ -66,7 +66,7 @@ namespace WpfIdSrv
 
             var options = new OidcClientOptions
             {
-                Authority = ConfigurationManager.AppSettings["authority"],
+                Authority = "http://localhost:5000",
                 ClientId = "public.hybrid.pkce",
                 RedirectUri = redirectUri,
                 Scope = "openid profile api1",
@@ -81,7 +81,7 @@ namespace WpfIdSrv
         {
             var options = new OidcClientOptions
             {
-                Authority = ConfigurationManager.AppSettings["authority"],
+                Authority = "http://localhost:5000",
                 ClientId = "public.code.pkce",
                 Scope = "openid profile api1",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",

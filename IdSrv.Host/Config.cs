@@ -132,13 +132,13 @@ namespace IdSrv.Host
 
                     RedirectUris =
                     {
-                        "http://localhost:14542/signin-oidc"
+                        "http://localhost:51959/signin-oidc"
                     },
                     PostLogoutRedirectUris =
                     {
-                        "http://localhost:14542/signout-callback-oidc"
+                        "http://localhost:51959/signout-callback-oidc"
                     },
-                    FrontChannelLogoutUri = "http://localhost:14542/signout-oidc",
+                    FrontChannelLogoutUri = "http://localhost:51959/signout-oidc",
                     
                     AllowedScopes =
                     {

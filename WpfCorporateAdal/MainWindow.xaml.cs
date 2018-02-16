@@ -194,7 +194,7 @@ namespace WpfCorporateAdal
             // Once we have an access_token, call api.
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:12415/api/values");
+                var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:51964/api/values");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
                 var response = _httpClient.SendAsync(request).Result;
 
