@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup Label="SDK Versions">
+    <NetStandardTargetVersion>netstandard2.0</NetStandardTargetVersion>
+    <NetCoreTargetVersion>netcoreapp2.2</NetCoreTargetVersion>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Package Versions">
+    <SerilogTargetVersion>2.8.0</SerilogTargetVersion>
+    <SerilogExtensionsLoggingTargetVersion>2.0.2</SerilogExtensionsLoggingTargetVersion>
+    <SerilogSinksConsoleTargetVersion>3.1.1</SerilogSinksConsoleTargetVersion>
+  </PropertyGroup>
+
+</Project>
