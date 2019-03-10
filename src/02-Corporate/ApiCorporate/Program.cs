@@ -14,12 +14,12 @@ namespace ApiCorporate
         {
             Console.Title = "Api Corporate";
 
-            SetupSerilogLoger();
+            SetupSerilogLogger();
 
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        private static void SetupSerilogLoger()
+        private static void SetupSerilogLogger()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()

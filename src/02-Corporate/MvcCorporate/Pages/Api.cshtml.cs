@@ -14,7 +14,7 @@ namespace MvcCorporate.Pages
         public async Task OnGet()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
-
+            
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var content = await client.GetStringAsync("https://localhost:5001/api/values");

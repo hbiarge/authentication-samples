@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
     <UserSecretsId>aspnet-ApiCorporate-d0fdefbc-bc84-4c30-bad2-065bf82a636a</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,16 +1,17 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using MvcCorporate.Infrastructure;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MvcCorporate
 {
@@ -26,38 +27,36 @@ namespace MvcCorporate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var authority = $"{Configuration["AzureAd:Instance"]}{Configuration["AzureAd:TenantId"]}";
-            var clientId = Configuration["AzureAd:ClientId"];
-            var clientSecret = Configuration["AzureAd:ClientSecret"];
-
-            services.Configure<AuthOptions>(options =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                options.Authority = authority;
-                options.ClientId = clientId;
-                options.ClientSecret = clientSecret;
-                options.ApiResourceId = Configuration["AzureAd:ApiResourceId"];
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddAuthentication(sharedOptions =>
-                {
-                    sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
                 .AddCookie()
                 .AddOpenIdConnect(options =>
                 {
-                    options.Authority = authority;
-                    options.ClientId = clientId;
-                    options.ClientSecret = clientSecret;
+                    // Bind configuration properties
+                    Configuration.Bind("AzureAd", options);
+
+                    // Configure not binded ones
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.UseTokenLifetime = true;
-                    options.CallbackPath = Configuration["AzureAd:CallbackPath"];
-                    options.Resource = Configuration["AzureAd:ApiResourceId"];
                     options.SaveTokens = true;
                     options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                     options.GetClaimsFromUserInfoEndpoint = false;
-                });
 
-            services.AddSession();
+                    // Change the default name claim type
+                    options.TokenValidationParameters.NameClaimType = "name";
+
+                    options.Events.OnAuthenticationFailed = OnAuthenticationFailed;
+                });
 
             services.AddMvc(options =>
             {
@@ -66,6 +65,7 @@ namespace MvcCorporate
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddRazorPagesOptions(options =>
             {
                 options.Conventions.AllowAnonymousToFolder("/Account");
@@ -82,38 +82,27 @@ namespace MvcCorporate
             else
             {
                 app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseSession();
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
 
-        private async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
+        /// <summary>
+        /// this method is invoked if exceptions are thrown during request processing
+        /// </summary>
+        private Task OnAuthenticationFailed(AuthenticationFailedContext context)
         {
-            // Acquire a Token for the API and cache it using ADAL. In the Api page, we'll use the cache to acquire a token to the API
-            var userObjectId = context.Principal.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
-            var clientCred = new ClientCredential(context.Options.ClientId, context.Options.ClientSecret);
-            var authContext = new AuthenticationContext(
-                authority: context.Options.Authority,
-                tokenCache: new NaiveSessionCache(userObjectId, context.HttpContext.Session));
-            var authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(
-                authorizationCode: context.ProtocolMessage.Code,
-                redirectUri: new Uri(context.Properties.Items[OpenIdConnectDefaults.RedirectUriForCodePropertiesKey]),
-                clientCredential: clientCred,
-                resource: Configuration["AzureAd:ApiResourceId"]);
-
-            // Notify the OIDC middleware that we already took care of code redemption.
-            context.HandleCodeRedemption();
+            context.HandleResponse();
+            context.Response.Redirect("/Home/Error?message=" + context.Exception.Message);
+            return Task.FromResult(0);
         }
     }
 }

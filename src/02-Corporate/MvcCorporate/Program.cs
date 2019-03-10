@@ -14,12 +14,12 @@ namespace MvcCorporate
         {
             Console.Title = "Mvc Corporate";
 
-            SetupSerilogLoger();
+            SetupSerilogLogger();
 
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        private static void SetupSerilogLoger()
+        private static void SetupSerilogLogger()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -33,15 +33,13 @@ namespace MvcCorporate
                 .CreateLogger();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureLogging(builder =>
                 {
                     builder.ClearProviders();
                     builder.AddSerilog();
                 });
-        }
     }
 }
