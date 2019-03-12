@@ -124,7 +124,8 @@ namespace IdSrv.Host
                     ClientName = "MVC Client",
                     RequireConsent = true,
 
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    
                     ClientSecrets =
                     {
                         new Secret("373f4671-0c18-48d6-9da3-962b1c81299a".Sha256())
@@ -132,13 +133,13 @@ namespace IdSrv.Host
 
                     RedirectUris =
                     {
-                        "http://localhost:51959/signin-oidc"
+                        "https://localhost:5011/signin-oidc"
                     },
                     PostLogoutRedirectUris =
                     {
-                        "http://localhost:51959/signout-callback-oidc"
+                        "https://localhost:5011/signout-callback-oidc"
                     },
-                    FrontChannelLogoutUri = "http://localhost:51959/signout-oidc",
+                    FrontChannelLogoutUri = "https://localhost:5011/signout-oidc",
                     
                     AllowedScopes =
                     {

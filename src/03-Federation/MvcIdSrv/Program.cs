@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
@@ -17,12 +12,14 @@ namespace MvcIdSrv
     {
         public static void Main(string[] args)
         {
-            Console.Title = "MvcIdSrv";
+            Console.Title = "Mvc Identity Server";
 
-            BuildWebHost(args).Run();
+            SetupSerilogLogger();
+
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        private static void SetupSerilogLogger()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -34,15 +31,17 @@ namespace MvcIdSrv
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
+        }
 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureLogging(builder =>
                 {
                     builder.ClearProviders();
                     builder.AddSerilog();
-                })
-                .Build();
+                });
         }
     }
 }

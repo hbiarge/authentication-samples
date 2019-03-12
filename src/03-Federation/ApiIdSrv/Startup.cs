@@ -1,7 +1,9 @@
-﻿using IdentityServer4.AccessTokenValidation;
+﻿using Acheve.Authentication.Events;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,24 +30,36 @@ namespace ApiIdSrv
                     options.Filters.Add(new AuthorizeFilter(policy));
                 })
                 .AddAuthorization()
-                .AddJsonFormatters();
+                .AddJsonFormatters()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddCors();
             
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
+                    Configuration.Bind("IdSrv", options);
 
-                    options.ApiName = "api1";
-                    options.ApiSecret = "secret";
+                    options.EventsType = typeof(LogJwtBearerEvents);
                 });
+            services.AddTransient<LogJwtBearerEvents>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+
             app.UseCors(policy =>
             {
                 policy.AllowAnyOrigin();

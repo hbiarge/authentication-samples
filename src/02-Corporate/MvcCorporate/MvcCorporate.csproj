@@ -17,4 +17,8 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsoleTargetVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Acheve.Authentication.Events\Acheve.Authentication.Events.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -14,10 +14,12 @@ namespace ApiIdSrv
         {
             Console.Title = "Api Identity Server";
 
-            BuildWebHost(args).Run();
+            SetupSerilogLogger();
+
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        private static void SetupSerilogLogger()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -29,15 +31,17 @@ namespace ApiIdSrv
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
+        }
 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureLogging(builder =>
                 {
                     builder.ClearProviders();
                     builder.AddSerilog();
-                })
-                .Build();
+                });
         }
     }
 }

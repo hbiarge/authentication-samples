@@ -42,8 +42,7 @@ namespace MvcLocalUsers
             services.AddAuthentication()
                 .AddTwitter(options =>
                 {
-                    options.ConsumerKey = Configuration.GetValue<string>("twitter:consumerKey");
-                    options.ConsumerSecret = Configuration.GetValue<string>("twitter:consumerSecret");
+                    Configuration.Bind("twitter", options);
                 });
 
             services.AddMvc()

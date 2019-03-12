@@ -1,19 +1,33 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiIdSrv.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [ApiController]
+    public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<IEnumerable<ClaimDto>> Get()
         {
             var claims = User.Claims
-                .Select(c => new { c.Type, c.Value, c.Issuer });
+               .Select(c => new ClaimDto
+               {
+                   Type = c.Type,
+                   Value = c.Value,
+                   Issuer = c.Issuer
+               });
 
             return Ok(claims);
+        }
+
+        public class ClaimDto
+        {
+            public string Type { get; set; }
+            public string Value { get; set; }
+            public string Issuer { get; set; }
         }
     }
 }

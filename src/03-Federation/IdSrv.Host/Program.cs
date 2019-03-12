@@ -12,12 +12,14 @@ namespace IdSrv.Host
     {
         public static void Main(string[] args)
         {
-            Console.Title = "IdentityServer4";
+            Console.Title = "Identity Server 4";
 
-            BuildWebHost(args).Run();
+            SetupSerilogLogger();
+
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        private static void SetupSerilogLogger()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -26,18 +28,20 @@ namespace IdSrv.Host
                 .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", 
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
+        }
 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
             return WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
                     .ConfigureLogging(builder =>
                     {
                         builder.ClearProviders();
                         builder.AddSerilog();
-                    })
-                    .Build();
+                    });
         }
     }
 }

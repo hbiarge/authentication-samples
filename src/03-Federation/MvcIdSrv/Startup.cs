@@ -1,15 +1,19 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using Acheve.Authentication.Events;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using MvcIdSrv.Infrastructure;
 using Newtonsoft.Json.Linq;
 
 namespace MvcIdSrv
@@ -30,51 +34,35 @@ namespace MvcIdSrv
 
             services.AddAuthentication(sharedOptions =>
                 {
-                    sharedOptions.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    sharedOptions.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    sharedOptions.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    sharedOptions.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
+                    sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie()
+                .AddCookie(options =>
+                {
+                    options.EventsType = typeof(LogCookieAuthenticationEvents);
+                })
                 .AddOpenIdConnect(options =>
                 {
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
+                    Configuration.Bind("Authentication:OIDC", options);
 
-                    options.ClientId = "mvc";
-                    options.ClientSecret = "373f4671-0c18-48d6-9da3-962b1c81299a";
                     options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
 
-                    options.Scope.Clear();
-                    options.Scope.Add("openid");
-                    options.Scope.Add("profile");
                     options.Scope.Add("api1");
-                    options.Scope.Add("offline_access");
+                    options.Scope.Add(OidcConstants.StandardScopes.OfflineAccess);
 
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        NameClaimType = "name",
-                        RoleClaimType = "role"
+                        NameClaimType = JwtClaimTypes.Name,
+                        RoleClaimType = JwtClaimTypes.Role
                     };
-                    options.Events = new OpenIdConnectEvents
-                    {
-                        OnUserInformationReceived = context =>
-                        {
-                            // AAD fixup
-                            if (context.User["name"] is JArray values)
-                            {
-                                context.User["name"] = values[0];
-                            }
 
-                            return Task.CompletedTask;
-                        }
-                    };
+                    options.EventsType = typeof(CustomOpenIdConnectEvents);
                 });
+            services.AddTransient<LogCookieAuthenticationEvents>();
+            services.AddTransient<CustomOpenIdConnectEvents>();
 
             services.AddMvc(options =>
                 {
@@ -86,7 +74,8 @@ namespace MvcIdSrv
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AllowAnonymousToFolder("/Account");
-                });
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,8 +88,11 @@ namespace MvcIdSrv
             else
             {
                 app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseAuthentication();
