@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acheve.Authentication.Events" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
 
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
-    
+
+    <PackageReference Include="Acheve.Authentication.Events" Version="$(AcheveAuthenticationEventsVersion)" />
     <PackageReference Include="Serilog" Version="$(SerilogTargetVersion)" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="$(SerilogExtensionsLoggingTargetVersion)" />
     <PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsoleTargetVersion)" />
