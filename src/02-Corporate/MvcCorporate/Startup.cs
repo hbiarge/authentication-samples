@@ -1,5 +1,3 @@
-using Acheve.Authentication.Events;
-using ApiCorporate.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +9,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
+using Acheve.Authentication.Events;
 
 namespace MvcCorporate
 {
@@ -41,10 +38,7 @@ namespace MvcCorporate
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-                .AddCookie(options =>
-                {
-                    options.EventsType = typeof(LogCookieAuthenticationEvents);
-                })
+                .AddCookie()
                 .AddOpenIdConnect(options =>
                 {
                     // Bind configuration properties
@@ -60,11 +54,9 @@ namespace MvcCorporate
                     // Change the default name claim type
                     options.TokenValidationParameters.NameClaimType = "name";
 
-                    options.EventsType = typeof(LogOpenIdConnectEvents);
                     options.Events.OnAuthenticationFailed = OnAuthenticationFailed;
-                });
-            services.AddTransient<LogCookieAuthenticationEvents>();
-            services.AddTransient<LogOpenIdConnectEvents>();
+                })
+                .UseLogEvents();
 
             services.AddMvc(options =>
             {

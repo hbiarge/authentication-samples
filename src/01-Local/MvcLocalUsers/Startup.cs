@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Twitter;
 using Acheve.Authentication.Events;
 
 namespace MvcLocalUsers
@@ -55,10 +57,9 @@ namespace MvcLocalUsers
                     Configuration.Bind("twitter", options);
 
                     options.EventsType = typeof(LogTwitterEvents);
-                });
-            services.AddTransient<LogTwitterEvents>();
-            services.AddTransient<LogCookieAuthenticationEvents>();
-
+                })
+                .UseLogEvents();            
+            
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(options =>

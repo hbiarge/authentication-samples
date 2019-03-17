@@ -1,5 +1,6 @@
 ﻿using Acheve.Authentication.Events;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,10 +40,8 @@ namespace ApiIdSrv
                 .AddIdentityServerAuthentication(options =>
                 {
                     Configuration.Bind("IdSrv", options);
-
-                    options.EventsType = typeof(LogJwtBearerEvents);
-                });
-            services.AddTransient<LogJwtBearerEvents>();
+                })
+                .UseLogEvents();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

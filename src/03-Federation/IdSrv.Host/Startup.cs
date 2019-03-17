@@ -2,6 +2,8 @@
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Quickstart.UI;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,8 +44,6 @@ namespace IdSrv.Host
                      Configuration.Bind("Authentication:Twitter", options);
 
                      options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                     options.EventsType = typeof(LogTwitterEvents);
                  })
                 .AddOpenIdConnect("aad", "Azure Active Directory", options =>
                 {
@@ -62,11 +62,8 @@ namespace IdSrv.Host
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = JwtClaimTypes.Role,
                     };
-
-                    options.EventsType = typeof(LogOpenIdConnectEvents);
-                });
-            services.AddTransient<LogTwitterEvents>();
-            services.AddTransient<LogOpenIdConnectEvents>();
+                })
+                .UseLogEvents();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

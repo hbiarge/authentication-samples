@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acheve.Authentication.Events" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
 
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
@@ -18,10 +19,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Acheve.Authentication.Events\Acheve.Authentication.Events.csproj" />
   </ItemGroup>
 
 </Project>

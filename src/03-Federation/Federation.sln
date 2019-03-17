@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfIdSrv", "WpfIdSrv\WpfIdS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpIdSrv", "UwpIdSrv\UwpIdSrv.csproj", "{04F55E2E-984E-49EA-90F9-B86102B73802}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acheve.Authentication.Events", "..\Acheve.Authentication.Events\Acheve.Authentication.Events.csproj", "{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,22 +111,6 @@ Global
 		{04F55E2E-984E-49EA-90F9-B86102B73802}.Release|x86.ActiveCfg = Release|x86
 		{04F55E2E-984E-49EA-90F9-B86102B73802}.Release|x86.Build.0 = Release|x86
 		{04F55E2E-984E-49EA-90F9-B86102B73802}.Release|x86.Deploy.0 = Release|x86
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|ARM.Build.0 = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|x64.Build.0 = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Debug|x86.Build.0 = Debug|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|ARM.ActiveCfg = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|ARM.Build.0 = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|x64.ActiveCfg = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|x64.Build.0 = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|x86.ActiveCfg = Release|Any CPU
-		{750DE16C-FA13-4AAF-A15D-885A2AC09BBE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

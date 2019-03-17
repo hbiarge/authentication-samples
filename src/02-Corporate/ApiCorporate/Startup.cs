@@ -1,4 +1,4 @@
-﻿using ApiCorporate.Infrastructure;
+﻿using Acheve.Authentication.Events;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -50,11 +50,8 @@ namespace ApiCorporate
                     //{
                     //    NameClaimType = "name"
                     //};
-
-                    options.EventsType = typeof(LogJwtBearerEvents);
-                });
-
-            services.AddTransient<LogJwtBearerEvents>();
+                })
+                .UseLogEvents();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

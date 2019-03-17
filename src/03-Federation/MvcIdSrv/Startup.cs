@@ -1,5 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
 using Acheve.Authentication.Events;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using MvcIdSrv.Infrastructure;
-using Newtonsoft.Json.Linq;
 
 namespace MvcIdSrv
 {
@@ -37,10 +35,7 @@ namespace MvcIdSrv
                     sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie(options =>
-                {
-                    options.EventsType = typeof(LogCookieAuthenticationEvents);
-                })
+                .AddCookie()
                 .AddOpenIdConnect(options =>
                 {
                     Configuration.Bind("Authentication:OIDC", options);
@@ -58,11 +53,8 @@ namespace MvcIdSrv
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = JwtClaimTypes.Role
                     };
-
-                    options.EventsType = typeof(CustomOpenIdConnectEvents);
-                });
-            services.AddTransient<LogCookieAuthenticationEvents>();
-            services.AddTransient<CustomOpenIdConnectEvents>();
+                })
+                .UseLogEvents();
 
             services.AddMvc(options =>
                 {
