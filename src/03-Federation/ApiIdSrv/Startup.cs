@@ -39,7 +39,7 @@ namespace ApiIdSrv
                 .UseLogEvents()
                 .AddIdentityServerAuthentication(options =>
                 {
-                    Configuration.Bind("IdSrv", options);
+                    Configuration.Bind("Authentication", options);
                 });
         }
 

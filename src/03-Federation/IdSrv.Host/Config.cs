@@ -23,6 +23,12 @@ namespace IdSrv.Host
             return new ApiResource[]
             {
                 new ApiResource("api1", "Api with IdSrv Bearer Token")
+                {
+                    ApiSecrets = new []
+                    {
+                        new Secret("secret".Sha256())
+                    }
+                }
             };
         }
 
