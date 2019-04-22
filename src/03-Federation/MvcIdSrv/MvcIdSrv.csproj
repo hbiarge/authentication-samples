@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+    <UserSecretsId>2fc74d25-462c-4da2-bff2-6cd9167c7a7f</UserSecretsId>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
 
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
 
-    <PackageReference Include="IdentityModel" Version="3.10.6" />
+    <PackageReference Include="IdentityModel" Version="3.10.7" />
 
     <PackageReference Include="Acheve.Authentication.Events" Version="$(AcheveAuthenticationEventsVersion)" />
     <PackageReference Include="Serilog" Version="$(SerilogTargetVersion)" />

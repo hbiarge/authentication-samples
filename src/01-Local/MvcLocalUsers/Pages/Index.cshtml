@@ -8,3 +8,37 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="text-center">
+    <h2 class="display-4">Registered Schemes</h2>
+    <dl>
+        @foreach (var scheme in this.Model.Schemes)
+        {
+            <dt>@scheme.Name</dt>
+            <dd>@scheme.HandlerType</dd>
+        }
+    </dl>
+
+    <h2 class="display-4">Request Handling Schemes</h2>
+    <dl>
+        @foreach (var scheme in this.Model.RequestHandlerSchemes)
+        {
+            <dt>@scheme.Name</dt>
+            <dd>@scheme.HandlerType</dd>
+        }
+    </dl>
+
+    <h1 class="display-4">Default Schemes</h1>
+    <dl>
+        <dt>DefaultAuthenticateScheme</dt>
+        <dd>@Model.DefaultAuthenticateScheme.Name</dd>
+        <dt>DefaultChallengeScheme</dt>
+        <dd>@Model.DefaultChallengeScheme.Name</dd>
+        <dt>DefaultForbidScheme</dt>
+        <dd>@Model.DefaultForbidScheme.Name</dd>
+        <dt>DefaultSignInScheme</dt>
+        <dd>@Model.DefaultSignInScheme.Name</dd>
+        <dt>DefaultSignOutScheme</dt>
+        <dd>@Model.DefaultSignOutScheme.Name</dd>
+    </dl>
+</div>

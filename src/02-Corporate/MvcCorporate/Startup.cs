@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Threading.Tasks;
 using Acheve.Authentication.Events;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MvcCorporate
 {
@@ -38,6 +39,7 @@ namespace MvcCorporate
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
+                .UseLogEvents()
                 .AddCookie()
                 .AddOpenIdConnect(options =>
                 {
@@ -55,8 +57,7 @@ namespace MvcCorporate
                     options.TokenValidationParameters.NameClaimType = "name";
 
                     options.Events.OnAuthenticationFailed = OnAuthenticationFailed;
-                })
-                .UseLogEvents();
+                });
 
             services.AddMvc(options =>
             {

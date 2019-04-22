@@ -36,7 +36,7 @@ namespace IdSrv.Host
                     ClientId = "public.hybrid.pkce",
                     ClientName = "WPF public client with PKCE",
                     RequireClientSecret = false,
-
+                    
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     RequirePkce = true,
 

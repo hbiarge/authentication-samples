@@ -1,4 +1,5 @@
 ﻿using Acheve.Authentication.Events;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,7 @@ namespace ApiCorporate
             services.AddCors();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .UseLogEvents()
                 .AddJwtBearer(options =>
                 {
                     options.Authority = string.Format(Configuration["Authentication:AzureAd:Instance"], Configuration["Authentication:AzureAd:Tenant"]);
@@ -50,8 +52,7 @@ namespace ApiCorporate
                     //{
                     //    NameClaimType = "name"
                     //};
-                })
-                .UseLogEvents();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

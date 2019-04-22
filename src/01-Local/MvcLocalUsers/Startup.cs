@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Acheve.Authentication.Events;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MvcLocalUsers
 {
@@ -42,23 +43,12 @@ namespace MvcLocalUsers
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.EventsType = typeof(LogCookieAuthenticationEvents);
-            });
-            services.ConfigureExternalCookie(options =>
-            {
-                options.EventsType = typeof(LogCookieAuthenticationEvents);
-            });
-
             services.AddAuthentication()
+                .UseLogEvents()
                 .AddTwitter(options =>
                 {
                     Configuration.Bind("twitter", options);
-
-                    options.EventsType = typeof(LogTwitterEvents);
-                })
-                .UseLogEvents();            
+                })                ;            
             
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

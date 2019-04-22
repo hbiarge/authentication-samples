@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
-using Acheve.Authentication.Events;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using MvcIdSrv.Infrastructure;
 
 namespace MvcIdSrv
 {
@@ -35,6 +34,7 @@ namespace MvcIdSrv
                     sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
+                .UseLogEvents()
                 .AddCookie()
                 .AddOpenIdConnect(options =>
                 {
@@ -53,8 +53,7 @@ namespace MvcIdSrv
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = JwtClaimTypes.Role
                     };
-                })
-                .UseLogEvents();
+                })                ;
 
             services.AddMvc(options =>
                 {

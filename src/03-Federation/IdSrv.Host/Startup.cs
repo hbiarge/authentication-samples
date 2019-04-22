@@ -2,6 +2,7 @@
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Quickstart.UI;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Builder;
@@ -39,14 +40,10 @@ namespace IdSrv.Host
                 .AddTestUsers(TestUsers.Users);
 
             services.AddAuthentication()
-                .AddTwitter("twitter", "Twitter", options =>
-                 {
-                     Configuration.Bind("Authentication:Twitter", options);
-
-                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                 })
+                .UseLogEvents()
                 .AddOpenIdConnect("aad", "Azure Active Directory", options =>
                 {
+                    // Bind 
                     Configuration.Bind("Authentication:aad", options);
 
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
@@ -62,8 +59,7 @@ namespace IdSrv.Host
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = JwtClaimTypes.Role,
                     };
-                })
-                .UseLogEvents();
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -74,6 +70,8 @@ namespace IdSrv.Host
             }
             else
             {
+                app.UseExceptionHandler("/Home/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
