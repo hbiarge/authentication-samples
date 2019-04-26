@@ -9,7 +9,7 @@
     <AcheveAuthenticationEventsVersion>1.2.0</AcheveAuthenticationEventsVersion>
     
     <SerilogTargetVersion>2.8.0</SerilogTargetVersion>
-    <SerilogExtensionsLoggingTargetVersion>2.0.2</SerilogExtensionsLoggingTargetVersion>
+    <SerilogExtensionsLoggingTargetVersion>2.0.4</SerilogExtensionsLoggingTargetVersion>
     <SerilogSinksConsoleTargetVersion>3.1.1</SerilogSinksConsoleTargetVersion>
   </PropertyGroup>
 
