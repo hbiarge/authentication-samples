@@ -46,7 +46,7 @@ namespace MvcCorporate
                     // Bind configuration properties
                     Configuration.Bind("AzureAd", options);
 
-                    // Configure not binded ones
+                    // Configure not bounded ones
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.UseTokenLifetime = true;
                     options.SaveTokens = true;

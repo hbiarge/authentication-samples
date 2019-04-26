@@ -9,10 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Twitter;
-using Acheve.Authentication.Events;
 using Microsoft.AspNetCore.Authentication;
+using MvcLocalUsers.Infrastructure.Authentication;
 
 namespace MvcLocalUsers
 {
@@ -45,16 +43,27 @@ namespace MvcLocalUsers
 
             services.AddAuthentication()
                 .UseLogEvents()
+                .AddScheme<FakeAuthenticationOptions, FakeAuthenticationHandler>("Fake", options => { })
                 .AddTwitter(options =>
                 {
                     Configuration.Bind("twitter", options);
-                })                ;            
-            
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Fake", builder =>
+                {
+                    builder.AuthenticationSchemes.Add("Fake");
+                    builder.RequireAuthenticatedUser();
+                });
+            });
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizePage("/Secure");
+                    options.Conventions.AuthorizePage("/SecureFake", "Fake");
                 });
 
             services.AddTransient<IEmailSender, Services.EmailSender>();
