@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using MvcIdSrv.Infrastructure;
 
 namespace MvcIdSrv
 {
@@ -53,7 +55,7 @@ namespace MvcIdSrv
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = JwtClaimTypes.Role
                     };
-                })                ;
+                });
 
             services.AddMvc(options =>
                 {
