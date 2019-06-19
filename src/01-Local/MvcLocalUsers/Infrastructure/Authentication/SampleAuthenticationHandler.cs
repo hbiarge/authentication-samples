@@ -8,10 +8,10 @@ using Microsoft.Extensions.Options;
 
 namespace MvcLocalUsers.Infrastructure.Authentication
 {
-    public class FakeAuthenticationHandler : AuthenticationHandler<FakeAuthenticationOptions>
+    public class SampleAuthenticationHandler : AuthenticationHandler<SampleAuthenticationOptions>
     {
-        public FakeAuthenticationHandler(
-            IOptionsMonitor<FakeAuthenticationOptions> options,
+        public SampleAuthenticationHandler(
+            IOptionsMonitor<SampleAuthenticationOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock)
@@ -29,7 +29,7 @@ namespace MvcLocalUsers.Infrastructure.Authentication
                 new Claim(ClaimTypes.AuthenticationInstant, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),
             };
 
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "Fake"));
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "Sample"));
 
             var result = AuthenticateResult.Success(
                 new AuthenticationTicket(

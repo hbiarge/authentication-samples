@@ -43,7 +43,7 @@ namespace MvcLocalUsers
 
             services.AddAuthentication()
                 .UseLogEvents()
-                .AddScheme<FakeAuthenticationOptions, FakeAuthenticationHandler>("Fake", options => { })
+                .AddScheme<SampleAuthenticationOptions, SampleAuthenticationHandler>("Sample", options => { })
                 .AddTwitter(options =>
                 {
                     Configuration.Bind("twitter", options);
@@ -51,9 +51,9 @@ namespace MvcLocalUsers
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Fake", builder =>
+                options.AddPolicy("Sample", builder =>
                 {
-                    builder.AuthenticationSchemes.Add("Fake");
+                    builder.AuthenticationSchemes.Add("Sample");
                     builder.RequireAuthenticatedUser();
                 });
             });
@@ -63,7 +63,7 @@ namespace MvcLocalUsers
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizePage("/Secure");
-                    options.Conventions.AuthorizePage("/SecureFake", "Fake");
+                    options.Conventions.AuthorizePage("/SecureFake", "Sample");
                 });
 
             services.AddTransient<IEmailSender, Services.EmailSender>();

@@ -21,8 +21,8 @@ namespace WpfIdSrv
 
         private async void CallApi(object sender, RoutedEventArgs e)
         {
-            var options = SystemBrowser();
-            //var options = WpfEmbeddedBrowser();
+            //var options = SystemBrowser();
+            var options = WpfEmbeddedBrowser();
 
             _oidcClient = new OidcClient(options);
             var result = await _oidcClient.LoginAsync(new LoginRequest());

@@ -2,7 +2,7 @@
 
 namespace MvcLocalUsers.Infrastructure.Authentication
 {
-    public class FakeAuthenticationOptions : AuthenticationSchemeOptions
+    public class SampleAuthenticationOptions : AuthenticationSchemeOptions
     {
     }
 }
