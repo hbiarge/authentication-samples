@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
 
-    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.1.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.2.2" />
 
     <PackageReference Include="Acheve.Authentication.Events" Version="$(AcheveAuthenticationEventsVersion)" />
     <PackageReference Include="Serilog" Version="$(SerilogTargetVersion)" />
