@@ -107,7 +107,7 @@
       <Version>3.10.10</Version>
     </PackageReference>
     <PackageReference Include="IdentityModel.OidcClient">
-      <Version>2.9.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Server.HttpSys">
       <Version>2.2.6</Version>
