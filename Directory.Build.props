@@ -1,3 +1,9 @@
-﻿<Project>
-  <Import Project="build/dependencies.props" />
+<Project>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
 </Project>

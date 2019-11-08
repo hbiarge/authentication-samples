@@ -21,7 +21,7 @@ namespace WpfCorporateAdal
 
             lock (FileLock)
             {
-                Deserialize(File.Exists(_cacheFilePath)
+                DeserializeAdalV3(File.Exists(_cacheFilePath)
                     ? ProtectedData.Unprotect(File.ReadAllBytes(_cacheFilePath), null, DataProtectionScope.CurrentUser)
                     : null);
             }
@@ -44,7 +44,7 @@ namespace WpfCorporateAdal
         {
             lock (FileLock)
             {
-                Deserialize(File.Exists(_cacheFilePath)
+                DeserializeAdalV3(File.Exists(_cacheFilePath)
                     ? ProtectedData.Unprotect(File.ReadAllBytes(_cacheFilePath), null, DataProtectionScope.CurrentUser)
                     : null);
             }
@@ -59,7 +59,12 @@ namespace WpfCorporateAdal
                 lock (FileLock)
                 {
                     // reflect changes in the persistent store
-                    File.WriteAllBytes(_cacheFilePath, ProtectedData.Protect(Serialize(), null, DataProtectionScope.CurrentUser));
+                    File.WriteAllBytes(
+                        _cacheFilePath, 
+                        ProtectedData.Protect(
+                            SerializeAdalV3(), 
+                            null, 
+                            DataProtectionScope.CurrentUser));
                     // once the write operation took place, restore the HasStateChanged bit to false
                     HasStateChanged = false;
                 }

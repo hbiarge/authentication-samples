@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using MvcLocalUsers.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Hosting;
 using MvcLocalUsers.Infrastructure.Authentication;
 
 namespace MvcLocalUsers
@@ -38,7 +38,7 @@ namespace MvcLocalUsers
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthentication()
@@ -58,8 +58,7 @@ namespace MvcLocalUsers
                 });
             });
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddRazorPages()
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizePage("/Secure");
@@ -70,7 +69,7 @@ namespace MvcLocalUsers
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -88,9 +87,15 @@ namespace MvcLocalUsers
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseMvc();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

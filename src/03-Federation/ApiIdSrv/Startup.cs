@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ApiIdSrv
 {
@@ -22,16 +23,13 @@ namespace ApiIdSrv
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore(options =>
+            services.AddControllers(options =>
                 {
                     var policy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
                         .Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
-                })
-                .AddAuthorization()
-                .AddJsonFormatters()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                });
 
             services.AddCors();
             
@@ -44,7 +42,7 @@ namespace ApiIdSrv
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -66,8 +64,15 @@ namespace ApiIdSrv
                 policy.WithExposedHeaders("WWW-Authenticate");
             });
 
+            app.UseRouting();
+
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

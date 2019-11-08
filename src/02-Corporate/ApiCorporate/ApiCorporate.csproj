@@ -1,21 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>aspnet-ApiCorporate-d0fdefbc-bc84-4c30-bad2-065bf82a636a</UserSecretsId>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Acheve.Authentication.Events" />
 
-    <PackageReference Include="Acheve.Authentication.Events" Version="$(AcheveAuthenticationEventsVersion)" />
-    <PackageReference Include="Serilog" Version="$(SerilogTargetVersion)" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="$(SerilogExtensionsLoggingTargetVersion)" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsoleTargetVersion)" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.Console" />
   </ItemGroup>
 
 </Project>

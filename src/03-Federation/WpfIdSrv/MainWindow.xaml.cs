@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Windows;
-using System.Configuration;
+using IdentityModel.Client;
 using IdentityModel.OidcClient;
 using Newtonsoft.Json.Linq;
 

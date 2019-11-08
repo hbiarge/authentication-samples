@@ -18,10 +18,10 @@ namespace MvcIdSrv.Infrastructure
             await base.UserInformationReceived(context);
 
             // AAD fixup
-            if (context.User["name"] is JArray values)
-            {
-                context.User["name"] = values[0];
-            }
+            //if (context.User["name"] is JArray values)
+            //{
+            //    context.User["name"] = values[0];
+            //}
         }
     }
 }

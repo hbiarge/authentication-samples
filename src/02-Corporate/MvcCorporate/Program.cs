@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
@@ -16,7 +17,7 @@ namespace MvcCorporate
 
             SetupSerilogLogger();
 
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         private static void SetupSerilogLogger()
@@ -33,13 +34,17 @@ namespace MvcCorporate
                 .CreateLogger();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureLogging(builder =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webHostBuilder =>
                 {
-                    builder.ClearProviders();
-                    builder.AddSerilog();
+                    webHostBuilder
+                        .UseStartup<Startup>()
+                        .ConfigureLogging(builder =>
+                        {
+                            builder.ClearProviders();
+                            builder.AddSerilog();
+                        });
                 });
     }
 }

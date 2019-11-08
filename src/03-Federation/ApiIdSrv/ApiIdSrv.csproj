@@ -1,24 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>8209f2f9-d25a-4691-8d0f-8be2791a2edb</UserSecretsId>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" />
 
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
+    <PackageReference Include="Acheve.Authentication.Events" />
 
-    <PackageReference Include="Acheve.Authentication.Events" Version="$(AcheveAuthenticationEventsVersion)" />
-    <PackageReference Include="Serilog" Version="$(SerilogTargetVersion)" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="$(SerilogExtensionsLoggingTargetVersion)" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsoleTargetVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.Console" />
   </ItemGroup>
 
 </Project>

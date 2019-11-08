@@ -1,0 +1,42 @@
+<Project>
+
+  <PropertyGroup>
+    <EntityFrameworkVersion>3.0.0</EntityFrameworkVersion>
+    <IdentityServerVersion>3.0.2</IdentityServerVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <!-- Asp.Net Core -->
+    <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
+    
+    <!-- Microsoft Entity Framework -->
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="$(EntityFrameworkVersion)" PrivateAssets="All" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="$(EntityFrameworkVersion)" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EntityFrameworkVersion)" />
+    <PackageReference Update="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(EntityFrameworkVersion)" />
+    
+    <!-- Other Microsoft packages -->
+    <PackageReference Update="Microsoft.Identity.Client" Version="4.7.0" />
+    <PackageReference Update="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.2.4" />
+    <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.5.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    
+    <!-- IdentityServer -->
+    <PackageReference Update="IdentityServer4" Version="$(IdentityServerVersion)" />
+    <PackageReference Update="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Update="IdentityModel" Version="4.0.0" />
+
+    <!-- Serilog -->
+    <PackageReference Update="Serilog" Version="2.9.0" />
+    <PackageReference Update="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Update="Serilog.Sinks.Console" Version="3.1.1" />
+    
+    <!-- misc -->
+    <PackageReference Update="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Update="Acheve.Authentication.Events" Version="2.0.2" />
+
+  </ItemGroup>
+
+</Project>

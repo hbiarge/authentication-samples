@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using MvcIdSrv.Infrastructure;
@@ -57,22 +58,23 @@ namespace MvcIdSrv
                     };
                 });
 
-            services.AddMvc(options =>
+            services.AddControllers(options =>
                 {
                     var policy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
                         .Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
-                })
-                .AddRazorPagesOptions(options =>
+                });
+                
+                services.AddRazorPages(options =>
                 {
+                    options.Conventions.AuthorizeFolder("/");
                     options.Conventions.AllowAnonymousToFolder("/Account");
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -88,9 +90,16 @@ namespace MvcIdSrv
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+            });
         }
     }
 }
