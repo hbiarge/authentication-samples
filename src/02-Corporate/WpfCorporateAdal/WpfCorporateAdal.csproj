@@ -99,7 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Configuration.ConfigurationBuilders.UserSecrets">
-      <Version>2.0.0-beta</Version>
+      <Version>2.0.0-rc</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
       <Version>5.2.5</Version>
