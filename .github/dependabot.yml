@@ -1,0 +1,38 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/src/02-Corporate"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Microsoft.Identity.Client
+    versions:
+    - 4.25.0
+    - 4.26.0
+    - 4.27.0
+    - 4.28.0
+    - 4.28.1
+    - 4.29.0
+    - 4.30.0
+  - dependency-name: Microsoft.IdentityModel.Clients.ActiveDirectory
+    versions:
+    - 5.2.8
+- package-ecosystem: nuget
+  directory: "/src/01-Local"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: nuget
+  directory: "/src/03-Federation"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: IdentityModel
+    versions:
+    - 5.0.0
+    - 5.0.1
